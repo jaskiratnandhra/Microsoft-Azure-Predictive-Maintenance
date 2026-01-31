@@ -1,7 +1,6 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import os
 
 from src.inference import predict_failure_risk, build_features_for_machine
@@ -101,13 +100,11 @@ cA, cB = st.columns(2)
 for i, col in enumerate(sensor_cols):
     ax_col = cA if i % 2 == 0 else cB
     with ax_col:
-        fig = plt.figure()
-        plt.plot(df_plot["datetime"], df_plot[col])
-        plt.xticks(rotation=30)
-        plt.title(col)
-        plt.xlabel("datetime")
-        plt.ylabel(col)
-        st.pyplot(fig, clear_figure=True)
+        st.line_chart(
+    df_plot.set_index("datetime")[col],
+    use_container_width=True
+)
+
 
 st.divider()
 
